@@ -1,0 +1,11 @@
+  RewriteEngine On
+
+  RewriteRule ^$ app/index.php [L]
+  
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^api/(.*)$ api/index.php?url=$1 [QSA,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ app/index.php?url=$1 [QSA,L]
