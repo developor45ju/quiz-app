@@ -14,10 +14,10 @@ const lettre = ['A', 'B', 'C', 'D'];
 const questionGroup = new DivContainer('question__container', 'questions1').createDivContainer();
 const questionProposition = new DivContainer('proposition__container', 'propositions1').createDivContainer();
 const questionLabel = new Label('question1', 'Question 1').createLabel();
-const questionInputName = new InputField('question__name', 'question1', 'question1name', 'text', 'Question 1').createInputField();
+const questionInputName = new InputField('question__name', 'question1', 'question1name', 'text', 'Question 1', true).createInputField();
 for (let i = 0; i < 4; i++) {
     const choiceAnswer = new RadioButton(`question__choice`, `choice${lettre[i]}`, `question1choice`, 'wrong').createRadioButton();
-    const proposition = new InputField('question__proposition', `choice${lettre[i]}_1`, `question1answer${lettre[i]}wrong`, 'text', `Proposition ${i + 1}`).createInputField();
+    const proposition = new InputField('question__proposition', `choice${lettre[i]}_1`, `question1answer${lettre[i]}wrong`, 'text', `Proposition ${i + 1}`, true).createInputField();
     questionProposition.appendChild(choiceAnswer);
     questionProposition.appendChild(proposition);
     questionGroup.appendChild(questionProposition );
@@ -26,18 +26,6 @@ document.getElementById('questions').appendChild(questionGroup);
 questionGroup.appendChild(questionLabel);
 questionGroup.appendChild(questionInputName);
 questionGroup.appendChild(questionProposition);
-
-// Prendre le nombre renseigné dans le champ de saisie
-// L'utilisater appuie sur la touche entrée de son clavier 
-// Commencer à partir de 1 jusqu'au nombre renseigné
-// Créer un conteneur de quiestion et un conteneur de proposition
-    // Si l'utilisateur appuie sur appuie à nouveau sur la touche entrée de son clavier avec le même nombre renseigné dans le champ de saisie,
-        // Message d'erreur pur dire à l'utilisateur qu'il a déjà renseigné le nombre renseigné dans le champ de saisie
-    // Sinon si l'utilisateur renseigne un autre nombre que celui précédement renseigné dans le champ saisie
-        // Si le nombre renseigné est supérieur à celui renseigné précédement dans le champ de saisie,
-            // Ajouter le nombre de conteneur de question en faisant la différence entre la valeur renseigné précédement avec la nouvelle valeur
-        // Si le nombre renseigné est inférieur à celui renseigné précédement dans le champ de saisie,
-            // Supprimer le nombre de conteneur de question en faisant la différence entre la valeur renseigné précédement avec la nouvelle valeur 
 
 nbQuestions.addEventListener('keypress', function(e) {
     
@@ -53,10 +41,10 @@ nbQuestions.addEventListener('keypress', function(e) {
                     const questionGroup = new DivContainer('question__container', `questions${i + 1}`).createDivContainer();
                     const questionProposition = new DivContainer('proposition__container', `propositions${i + 1}`).createDivContainer();
                     const questionLabel = new Label(`question${i + 1}`, `Question ${i + 1}`).createLabel();
-                    const questionInputName = new InputField('question__name', `question${i + 1}`, `question${i + 1}name`, 'text', `Question ${i + 1}`).createInputField();
+                    const questionInputName = new InputField('question__name', `question${i + 1}`, `question${i + 1}name`, 'text', `Question ${i + 1}`, true).createInputField();
                     for (let j = 0; j < 4; j++) {
                         const choiceAnswer = new RadioButton(`question__choice`, `choice${lettre[j]}_${i + 1}`, `question${i + 1}choice`, 'wrong').createRadioButton();
-                        const proposition = new InputField('question__proposition', `choice${lettre[j]}_${i + 1}`, `question${i + 1}answer${lettre[j]}wrong`, 'text', `Proposition ${j + 1}`).createInputField();
+                        const proposition = new InputField('question__proposition', `choice${lettre[j]}_${i + 1}`, `question${i + 1}answer${lettre[j]}wrong`, 'text', `Proposition ${j + 1}`, true).createInputField();
                         questionProposition.appendChild(choiceAnswer);
                         questionProposition.appendChild(proposition);
                         questionGroup.appendChild(questionProposition);
@@ -69,10 +57,9 @@ nbQuestions.addEventListener('keypress', function(e) {
         }
         if (isDesincrementing) {
             const questionsDiv = document.getElementById('questions');
-            for (let i = previousValue; i >= newValue; i--) {
-                if (questionsDiv.children.length > 0) {
-                    questionsDiv.removeChild(questionsDiv.lastChild);
-                }
+            for (let i = previousValue - 1; i > newValue; i--) {
+                
+                questionsDiv.removeChild(questionsDiv.lastChild);
             }
         }
         previousValue = newValue;
@@ -88,10 +75,10 @@ nbQuestions.addEventListener('change', function() {
         const questionGroup = new DivContainer('question__container', `questions${newValue}`).createDivContainer();
         const questionProposition = new DivContainer('proposition__container', `propositions${newValue}`).createDivContainer();
         const questionLabel = new Label(`question${newValue}`, `Question ${newValue}`).createLabel();
-        const questionInputName = new InputField('question__name', `question${newValue}`, `question${newValue}name`, 'text', `Question ${newValue}`).createInputField();
+        const questionInputName = new InputField('question__name', `question${newValue}`, `question${newValue}name`, 'text', `Question ${newValue}`, true).createInputField();
         for (let i = 0; i < 4; i++) {
             const choiceAnswer = new RadioButton(`question__choice`, `choice${lettre[i]}_${newValue}`, `question${newValue}choice`, 'wrong').createRadioButton();
-            const proposition = new InputField('question__proposition', `choice${lettre[i]}_${newValue}`, `question${newValue}answer${lettre[i]}wrong`, 'text', `Proposition ${i + 1}`).createInputField();
+            const proposition = new InputField('question__proposition', `choice${lettre[i]}_${newValue}`, `question${newValue}answer${lettre[i]}wrong`, 'text', `Proposition ${i + 1}`, true).createInputField();
             questionProposition.appendChild(choiceAnswer);
             questionProposition.appendChild(proposition);
             questionGroup.appendChild(questionProposition);
@@ -153,5 +140,32 @@ formAddingQuiz.addEventListener('submit', (e) => {
     }
 
     addedQuiz(formAddingQuiz);
+
+    const questionsContainer = [...document.getElementsByClassName('question__container')];
+
+    console.log(questionsContainer);
+    
+    questionsContainer.forEach(questionContainer => {
+        questionContainer.remove();
+    });
+
+    document.getElementById('nbQuestions').value = '1';
+    document.getElementById('quizName').value = '';
+
+    const questionGroup = new DivContainer('question__container', 'questions1').createDivContainer();
+    const questionProposition = new DivContainer('proposition__container', 'propositions1').createDivContainer();
+    const questionLabel = new Label('question1', 'Question 1').createLabel();
+    const questionInputName = new InputField('question__name', 'question1', 'question1name', 'text', 'Question 1', true).createInputField();
+    for (let i = 0; i < 4; i++) {
+        const choiceAnswer = new RadioButton(`question__choice`, `choice${lettre[i]}`, `question1choice`, 'wrong').createRadioButton();
+        const proposition = new InputField('question__proposition', `choice${lettre[i]}_1`, `question1answer${lettre[i]}wrong`, 'text', `Proposition ${i + 1}`, true).createInputField();
+        questionProposition.appendChild(choiceAnswer);
+        questionProposition.appendChild(proposition);
+        questionGroup.appendChild(questionProposition );
+    }
+    document.getElementById('questions').appendChild(questionGroup);
+    questionGroup.appendChild(questionLabel);
+    questionGroup.appendChild(questionInputName);
+    questionGroup.appendChild(questionProposition);
 });
  

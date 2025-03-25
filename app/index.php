@@ -6,8 +6,11 @@
         import Router from '/app/js/router/Router.js';
         const router = new Router();
         
-        router.route('/',() => {
-            document.getElementById('main-container').innerHTML = '<h1>Bienvenue sur mon app de quiz</h1>';
+        router.route('/', async () => {
+            const response = await fetch('/app/views/home.php');
+            const content = await response.text();
+            document.getElementById('main-container').innerHTML = content;
+            loadScript('/app/js/scripts/handledHome.js');
         });
         router.route('/createdQuiz', async () => {
             const response = await fetch('/app/views/quizForm.php');

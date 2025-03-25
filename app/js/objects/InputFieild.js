@@ -9,7 +9,7 @@ export class InputField {
      * @param {string} placeholder - The placeholder text for the input field
      * @param {boolean} required - Whether the input field is required
      */
-    constructor(className, id, name, type, placeholder, required = false) {
+    constructor(className, id, name, type, placeholder, required = "false") {
         this.className = className;
         this.id = id;
         this.name = name;

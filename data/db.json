@@ -349,5 +349,232 @@
                 ]
             }
         ]
+    },
+    {
+        "quizId": "e067c4b0-2c85-4394-97e9-a55f18d488f1",
+        "quizName": "Échecs",
+        "nbQuestion": 10,
+        "questions": [
+            {
+                "questionId": "514272a2-881e-416d-a796-07e7a2b7f347",
+                "question": "Quel est la pièce la plus importante aux échecs ?",
+                "answers": [
+                    {
+                        "response": "fou",
+                        "correct": false
+                    },
+                    {
+                        "response": "reine",
+                        "correct": false
+                    },
+                    {
+                        "response": "cavalier",
+                        "correct": false
+                    },
+                    {
+                        "response": "roi",
+                        "correct": true
+                    }
+                ]
+            },
+            {
+                "questionId": "35771479-7a03-458f-a686-43169569102d",
+                "question": "Quelle est la valeur d'un pion ?",
+                "answers": [
+                    {
+                        "response": "9 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "5 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "1 point",
+                        "correct": true
+                    },
+                    {
+                        "response": "3 points",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "5f48293b-7521-4c13-9dac-38bcf7178cdc",
+                "question": "Quelle est la valeur d'une tour ?",
+                "answers": [
+                    {
+                        "response": "1 point",
+                        "correct": false
+                    },
+                    {
+                        "response": "5 points",
+                        "correct": true
+                    },
+                    {
+                        "response": "3 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "9 points",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "839b0f4a-40db-4f26-bc1c-70db71ff1887",
+                "question": "Quelle est la valeur d'un cavalier ?",
+                "answers": [
+                    {
+                        "response": "5 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "3 points",
+                        "correct": true
+                    },
+                    {
+                        "response": "9 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "1 points",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "db596bbe-6efe-4c97-bba9-152874fe6c53",
+                "question": "Quelle est la valeur d'un fou ?",
+                "answers": [
+                    {
+                        "response": "1 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "2 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "3 points",
+                        "correct": true
+                    },
+                    {
+                        "response": "4 points",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "d2a0b73b-4b87-4fe1-9e77-981b297da0cf",
+                "question": "Quelle est la valeur d'une dame ?",
+                "answers": [
+                    {
+                        "response": "6 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "7 points",
+                        "correct": false
+                    },
+                    {
+                        "response": "9 points",
+                        "correct": true
+                    },
+                    {
+                        "response": "8 points",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "27899c6f-b623-44f8-9750-5f1997cfb69d",
+                "question": "Quel est le déplacement de la dame ?",
+                "answers": [
+                    {
+                        "response": "Elle se déplace en diagognale et horizontale\/verticale autant de fois quelle veut",
+                        "correct": true
+                    },
+                    {
+                        "response": "Elle se déplace uniquement en diagognale",
+                        "correct": false
+                    },
+                    {
+                        "response": "Elle se déplace uniquement sur les côtés",
+                        "correct": false
+                    },
+                    {
+                        "response": "Elle peut se déplacer uniquement d'une case atour d'elle",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "8a5828ef-424a-4f38-b62b-13c15954ff75",
+                "question": "Quel est le déplacement du roi ?",
+                "answers": [
+                    {
+                        "response": "Il se déplace d'une case autour de lui",
+                        "correct": true
+                    },
+                    {
+                        "response": "Il se déplace en diagognale",
+                        "correct": false
+                    },
+                    {
+                        "response": "Il se déplace autant de cases sur les côtés",
+                        "correct": false
+                    },
+                    {
+                        "response": "Il se déplace en formant un L",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "92169cd7-3c43-4932-aeee-43275038ed7a",
+                "question": "Quel est le déplacement d'un fou ?",
+                "answers": [
+                    {
+                        "response": "Elle se déplace uniquement en diagognale autant de fois qu'elle veut",
+                        "correct": true
+                    },
+                    {
+                        "response": "Elle se déplace en horizontale et verticale autant de fois qu'elle veut",
+                        "correct": false
+                    },
+                    {
+                        "response": "Elle se déplace uniquement autour d'elle et une seule case",
+                        "correct": false
+                    },
+                    {
+                        "response": "Elle se déplace en formant un L ",
+                        "correct": false
+                    }
+                ]
+            },
+            {
+                "questionId": "9eaa64b6-1d49-47d7-9c9e-86ac3c5bd869",
+                "question": "Quelle est le but des échecs ?",
+                "answers": [
+                    {
+                        "response": "Le but des échecs est de faire pat au roi adverse",
+                        "correct": false
+                    },
+                    {
+                        "response": "Le but des échecs est de faire fourchette au roi adverse",
+                        "correct": false
+                    },
+                    {
+                        "response": "Le but des échecs est de faire échecs et mat au roi adverse",
+                        "correct": true
+                    },
+                    {
+                        "response": "Le but des échecs est de faire match nulle au roi adverse",
+                        "correct": false
+                    }
+                ]
+            }
+        ]
     }
 ]
