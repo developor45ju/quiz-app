@@ -67,9 +67,10 @@ nbQuestions.addEventListener('keypress', function(e) {
 });
 
 nbQuestions.addEventListener('change', function() {
+    if (this.value === "0") return this.value = "1";
     const newValue = Number(this.value);
     const isIncrementing = newValue > previousValue;
-    previousValue = newValue;
+    previousValue = newValue;  
 
     if (isIncrementing) {
         const questionGroup = new DivContainer('question__container', `questions${newValue}`).createDivContainer();
