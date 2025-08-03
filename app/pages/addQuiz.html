@@ -1,0 +1,40 @@
+<h1 class="main__title">Créez un quiz</h1>
+<section class="quiz">
+    <form action="#" method="post" class="quiz__form" id="form-quiz">
+        <div class="quiz__header-form">
+            <label for="quizName" class="quiz__label">Nom du quiz</label>
+            <input type="text" name="quizName" id="quizName" class="quiz__input" />
+            <label for="nbQuestions" class="quiz__label">Nombres de question</label>
+            <input type="number" name="nbQuestions" id="nbQuestions" class="quiz__input" min="1" value="1" />
+            <label for="quizDescription" class="quiz__label">Description du quiz</label>
+            <textarea name="quizDescription" id="quizDescription" class="quiz__input quiz__description" placeholder="Quiz description"></textarea>
+            <label for="quizCategory" class="quiz__label">Catégorie du quiz</label>
+            <select name="quizCategory" id="quizCategory" class="quiz__input">
+                <option value="general">General</option>
+            </select>
+        </div>
+        <div class="questions__container" id="questions">
+            <div class="question__container">
+                <label for="question1">Question 1</label>
+                <input type="text" class="question__name" id="question1" name="question1name" placeholder="Question 1">
+                <label for="question1difficulty">Difficulté de la question </label>
+                <select name="question1difficulty" id="question1difficulty" class="quiz__input">
+                    <option value="easy">1</option>
+                    <option value="medium">2</option>
+                    <option value="hard">3</option>
+                </select>
+                <div class="proposition__container">
+                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
+                    <input type="text" class="question__answer" name="question1choiceA" placeholder="Proposition 1">
+                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
+                    <input type="text" class="question__answer" name="question1choiceB" placeholder="Proposition 2">
+                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
+                    <input type="text" class="question__answer" name="question1choiceC" placeholder="Proposition 3">
+                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
+                    <input type="text" class="question__answer" name="question1choiceD" placeholder="Proposition 4">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="quiz__button" id="btn-add-quiz">Creation du quiz</button>
+    </form>
+</section>
