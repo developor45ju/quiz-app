@@ -7,10 +7,21 @@ class Route {
     private $callable;
     private $matches = [];
     private $params = [];
+    private $middleware = [];
 
     public function __construct(string $path, $callable) {
         $this->path = trim($path, '/');
         $this->callable = $callable;
+    }
+
+    /**
+     * Add middleware to the route
+     * 
+     * @param callable $middleware
+     */
+
+    public function addMiddleware(callable $middleware): void {
+        $this->middleware[] = $middleware;
     }
 
     public function match($url){
@@ -33,13 +44,23 @@ class Route {
     }
 
     public function call() {
-        if (is_string($this->callable)) {
-            $params = explode('#', $this->callable);
-            $controller = "App\\Controllers\\" . $params[0] . "Controller";
-            $controller = new $controller();
-            return call_user_func_array([$controller, $params[1]], $this->matches);
-        } else {
-            return call_user_func_array($this->callable, $this->matches);
+        $next = function($request) {
+            if (is_string($this->callable)) {
+                $params = explode('#', $this->callable);
+                $controller = "App\\Controllers\\" . $params[0] . "Controller";
+                $controller = new $controller();
+                return call_user_func_array([$controller, $params[1]], $this->matches);
+            } else {
+                return call_user_func_array($this->callable, $this->matches);
+            }
+        };
+
+        foreach (array_reverse($this->middleware) as $middleware) {
+            $next = function ($request) use ($middleware, $next) {
+                return $middleware($request, $next);
+            };
         }
+
+        return $next([]);
     }
 }

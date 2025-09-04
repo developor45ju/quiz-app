@@ -1,20 +1,24 @@
+import decodedEntitiesHTML from '/app/js/helpers/decodeEntitiesHTML.js';
 export default class Quiz {
     id = '';
+    responsesCorrect;
 
     constructor(id) {
         this.id = id;
-        
+        this.responsesCorrect = [];
     };
 
     async getQuiz() {
         try {
-            const responseQuiz = await fetch(`../../../api/getQuiz/${this.id}`, {
+            const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;utf-8'
                 }
             });
-            const resultQuiz = await responseQuiz.json();
+            const resultQuiz = await responseQuiz.json();      
+            console.log(resultQuiz);
+            
             
             if (responseQuiz.ok && resultQuiz.message) {
                 const quizElement = document.querySelector('.content__quiz');
@@ -36,12 +40,12 @@ export default class Quiz {
                     const questionElement = document.createElement('div');
                     questionElement.className = 'question-item';
                     questionElement.innerHTML = `
-                        <h3>${question.question}</h3>
+                        <h3>${question.question_text}</h3>
                         <ul class="answers-list">
                             ${question.answer.map(answer => `
                                 <li class="answer-item">
                                     <button class="answer__choice-player">
-                                    ${answer.answer}
+                                    ${answer.answer_text}
                                     </button>
                                 </li>
                             `).join('')}
@@ -63,7 +67,7 @@ export default class Quiz {
     }
 
     async getNbQuiz() {
-        const responseQuiz = await fetch(`../../../api/getQuiz/${this.id}`, {
+        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'
@@ -74,7 +78,7 @@ export default class Quiz {
     }
 
     async getCatQuiz() {
-        const responseQuiz = await fetch(`../../../api/getQuiz/${this.id}`, {
+        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'
@@ -82,6 +86,39 @@ export default class Quiz {
         });
         const resultQuiz = await responseQuiz.json();
         return resultQuiz.message.category;
+    }
+
+    async getResponseCorrect() {
+        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;utf-8'
+            }
+        });
+        const resultQuiz = await responseQuiz.json();
+        resultQuiz.message.questions.forEach(question => {
+            question.answer.filter(isCorrect => {
+                if (isCorrect.is_correct) {
+                    
+                    this.responsesCorrect.push(decodedEntitiesHTML(isCorrect.answer_text));
+                }
+            });
+            
+        });
+        
+        return this.responsesCorrect;
+    }
+
+    async getLength() {
+        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;utf-8'
+            }
+        });
+        const resultQuiz = await responseQuiz.json();
+        
+        return resultQuiz.message.nb_question;
     }
 }
         

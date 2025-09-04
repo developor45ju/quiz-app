@@ -1,4 +1,4 @@
-import { DivContainer } from "../objects/DivContainer.js";
+import { DivContainer } from "/app/js/objects/DivContainer.js";
 
 /**
  * Create a notification after an action by user

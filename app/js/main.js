@@ -15,7 +15,7 @@ function loadScript(src) {
     
     const script = document.createElement('script');
     script.id = 'dynamic-script';
-    script.src = `./js/scripts/${src}.js?v=${Date.now()}`;
+    script.src = `/app/js/scripts/${src}.js?v=${Date.now()}`;
     script.type = 'module';
     script.onload = () => {
         console.log(`${src} script loaded successfully.`);
@@ -30,7 +30,7 @@ async function loadPage(pageName) {
     try {
         const mainElem = document.querySelector('main');
 
-        const data = await fetch(`./pages/${pageName}.html`);
+        const data = await fetch(`/app/pages/${pageName}.html`);
         if (!data.ok) {
             throw new Error(`Page ${pageName} not found`);
         }
@@ -68,10 +68,13 @@ router
         await loadPage('allQuiz');
         loadScript('allQuiz');
     })
-    .addRoute('/quiz/:id', async () => {
+    .addRoute('/allQuiz/:id', async () => {
         await loadPage('quiz');
         loadScript('quiz');
-        
+    })
+    .addRoute('/allQuiz/:id/resultQuiz', async () => {
+        await loadPage('resultQuiz');
+        loadScript('resultQuiz');
     })
     .addNotFound(async () => {
         await loadPage('404');

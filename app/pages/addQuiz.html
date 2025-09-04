@@ -10,19 +10,22 @@
             <textarea name="quizDescription" id="quizDescription" class="quiz__input quiz__description" placeholder="Quiz description"></textarea>
             <label for="quizCategory" class="quiz__label">Catégorie du quiz</label>
             <select name="quizCategory" id="quizCategory" class="quiz__input">
-                <option value="general">General</option>
+                <option value="french">French</option>
+                <option value="math">Math</option>
+                <option value="english">English</option>
+                <option value="english">Web developement</option>
+            </select>
+            <label for="quizDifficulty">Difficulté de la question </label>
+            <select name="quizDifficulty" id="quizDifficulty" class="quiz__input">
+                <option value="easy">1</option>
+                <option value="medium">2</option>
+                <option value="hard">3</option>
             </select>
         </div>
         <div class="questions__container" id="questions">
             <div class="question__container">
                 <label for="question1">Question 1</label>
                 <input type="text" class="question__name" id="question1" name="question1name" placeholder="Question 1">
-                <label for="question1difficulty">Difficulté de la question </label>
-                <select name="question1difficulty" id="question1difficulty" class="quiz__input">
-                    <option value="easy">1</option>
-                    <option value="medium">2</option>
-                    <option value="hard">3</option>
-                </select>
                 <div class="proposition__container">
                     <input type="radio" class="question__choice" name="question1choice" value="wrong">
                     <input type="text" class="question__answer" name="question1choiceA" placeholder="Proposition 1">

@@ -15,7 +15,7 @@ export async function addedQuiz(formData) {
         const formDataQ = new FormData(formData);
         formDataQ.forEach((value, key) => data[key] = value);
         
-        const requestAddingQuiz = await fetch('../../../api/postQuiz', {
+        const requestAddingQuiz = await fetch(`http://${window.location.hostname}/api/postQuiz`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -30,7 +30,7 @@ export async function addedQuiz(formData) {
         const fetchResponse = await requestAddingQuiz.json();
         if (fetchResponse.status === 'success') {
             popUp();
-            const requestAllQuiz = await fetch('http://quiz/api/getAllQuiz', {
+            const requestAllQuiz = await fetch(`http://${window.location.hostname}/api/getAllQuiz`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'

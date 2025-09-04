@@ -1,9 +1,9 @@
-import { DivContainer } from '../objects/DivContainer.js';
-import { InputField } from '../objects/InputField.js';
-import { InputSelect } from '../objects/InputSelect.js';
-import { Label } from '../objects/Label.js';
-import { RadioButton } from '../objects/RadioButton.js';
-import { addedQuiz } from '../ajax/newQuiz.js';
+import { DivContainer } from '/app/js/objects/DivContainer.js';
+import { InputField } from '/app/js/objects/InputField.js';
+import { InputSelect } from '/app/js/objects/InputSelect.js';
+import { Label } from '/app/js/objects/Label.js';
+import { RadioButton } from '/app/js/objects/RadioButton.js';
+import { addedQuiz } from '/app/js/ajax/newQuiz.js';
 
 const nbQuestions = document.getElementById('nbQuestions');
 let previousValue = Number(nbQuestions.value);
@@ -21,17 +21,9 @@ nbQuestions.addEventListener('input', function() {
             const questionGroup = new DivContainer('question__container').createDivContainer();
             const quizQuestionLabel = new Label(`question${q + 1}`, `Question ${q +1}`).createLabel();
             const questionInputName = new InputField('question__name', `question${q + 1}`, `question${q + 1}name`, 'text', `Question ${q + 1}`).createInputField();
-            const difficultyQuestionLabel = new Label(`question${q + 1}difficulty`, 'Difficulté de la question').createLabel();
-            const questionDifficulty = new InputSelect(`question${q+1}difficulty`, `question${q + 1}difficulty`, [
-                { value: 'easy', text: '1' },
-                { value: 'medium', text: '2' },
-                { value: 'hard', text: '3' }
-            ]).createSelect();
             const questionProposition = new DivContainer('proposition__container').createDivContainer();
             questionGroup.appendChild(quizQuestionLabel);
             questionGroup.appendChild(questionInputName);
-            questionGroup.appendChild(difficultyQuestionLabel);
-            questionGroup.appendChild(questionDifficulty);
             for (let i = 0; i < 4; i++) {
                 const choiceAnswer = new RadioButton(`question__choice`, `question${q + 1}choice`, 'wrong').createRadioButton();
                 const proposition = new InputField('question__answer', `question${q + 1}choice${lettre[i]}`, `question${q + 1}choice${lettre[i]}`, 'text', `Proposition ${i + 1}`).createInputField();

@@ -11,11 +11,13 @@ class QuizController
 {
 
     private $pdo;
+    private $date;
     
     public function __construct()
     {
         $dbConfig = new DbConfig();
         $this->pdo = $dbConfig->getPdo();
+        $this->date = date('Y-m-d');
     }
     public function createQuiz()
     {
@@ -24,9 +26,9 @@ class QuizController
 
             $quizName = htmlspecialchars($data['quizName']);
             $quizDescription = htmlspecialchars($data['quizDescription']);
+            $nbQuestions = intval($data['nbQuestions']);
             $quizCategory = $data['quizCategory'];
             $quizDifficulty = $data['quizDifficulty'];
-            $nbQuestions = intval($data['nbQuestions']);
 
             if (empty($quizName) || $nbQuestions <= 0) {
                 $response = ['status' => 'error', 'message' => 'Nom du quiz ou nombre de questions invalide.'];
@@ -35,23 +37,24 @@ class QuizController
             }
             try {
                 $this->pdo->beginTransaction();
-                $stmt = $this->pdo->prepare("INSERT INTO quiz (id, title, content_desc, nb_question, category, difficulty) VALUES (:id, :title, :content_desc, :nb_question, :category, :difficulty)");
+                $stmt = $this->pdo->prepare("INSERT INTO Quiz (ID, title, content_desc, nb_question, category, difficulty, created_at) VALUES (:ID, :title, :content_desc, :nb_question, :category, :difficulty, :created_at)");
                 $quizId = md5(uniqid());
-                $stmt->bindParam(':id', $quizId);
+                $stmt->bindParam(':ID', $quizId);
                 $stmt->bindParam(':title', $quizName);
                 $stmt->bindParam(':content_desc', $quizDescription);
                 $stmt->bindParam(':nb_question', $nbQuestions);
                 $stmt->bindParam(':category', $quizCategory);
                 $stmt->bindParam(':difficulty', $quizDifficulty);
+                $stmt->bindParam(':created_at', $this->date);
                 $stmt->execute();
 
                 for ($i = 1; $i <= $nbQuestions; $i++) {
                     $questionName = htmlspecialchars($data['question' . $i . 'name']);
-                    $stmt = $this->pdo->prepare("INSERT INTO question (id, id_quiz, question) VALUES (:id, :id_quiz, :question)");
+                    $stmt = $this->pdo->prepare("INSERT INTO Question (ID, question_text, quiz_id) VALUES (:ID, :question_text, :quiz_id)");
                     $questionId = md5(uniqid());
-                    $stmt->bindParam(':id', $questionId);
-                    $stmt->bindParam(':id_quiz', $quizId);
-                    $stmt->bindParam(':question', $questionName);
+                    $stmt->bindParam(':ID', $questionId);
+                    $stmt->bindParam(':question_text', $questionName);
+                    $stmt->bindParam(':quiz_id', $quizId);
                     $stmt->execute();
                 
                     foreach (['A', 'B', 'C', 'D'] as $letter) {
@@ -67,12 +70,12 @@ class QuizController
                         } else {
                             continue;
                         }
-                        $stmt = $this->pdo->prepare("INSERT INTO answer (id, id_question, answer, is_correct) VALUES (:id, :id_question, :answer, :is_correct)");
+                        $stmt = $this->pdo->prepare("INSERT INTO Answer (ID, answer_text, is_correct, question_id) VALUES (:ID, :answer_text, :is_correct, :question_id)");
                         $answerId = md5(uniqid());
-                        $stmt->bindParam(':id', $answerId);
-                        $stmt->bindParam(':id_question', $questionId);
-                        $stmt->bindParam(':answer', $answerText);
+                        $stmt->bindParam(':ID', $answerId);
+                        $stmt->bindParam(':answer_text', $answerText);
                         $stmt->bindParam(':is_correct', $isCorrect);
+                        $stmt->bindParam(':question_id', $questionId);
                         $stmt->execute();
                     }
                 }
@@ -97,7 +100,7 @@ class QuizController
 
     public function showAllQuiz() {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM quiz");
+            $stmt = $this->pdo->prepare("SELECT * FROM Quiz");
             $stmt->execute();
             $quizzes = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             if (!$quizzes) {
@@ -117,8 +120,8 @@ class QuizController
 
     public function showQuiz($id) {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM quiz WHERE id = :id");
-            $stmt->bindParam(':id', $id);
+            $stmt = $this->pdo->prepare("SELECT * FROM Quiz WHERE ID = :ID");
+            $stmt->bindParam(':ID', $id);
             $stmt->execute();
             $quiz = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -128,14 +131,14 @@ class QuizController
                 exit;
             }
 
-            $stmt = $this->pdo->prepare("SELECT * FROM question WHERE id_quiz = :id");
-            $stmt->bindParam(':id', $id);
+            $stmt = $this->pdo->prepare("SELECT * FROM Question WHERE quiz_id = :ID");
+            $stmt->bindParam(':ID', $id);
             $stmt->execute();
             $questions = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
             foreach ($questions as &$question) {
-                $stmt = $this->pdo->prepare("SELECT * FROM answer WHERE id_question = :id_question");
-                $stmt->bindParam(':id_question', $question['ID']);
+                $stmt = $this->pdo->prepare("SELECT * FROM Answer WHERE question_id = :question_id");
+                $stmt->bindParam(':question_id', $question['ID']);
                 $stmt->execute();
                 $question['answer'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             }
@@ -154,16 +157,16 @@ class QuizController
 
     public function deleteQuiz($id) {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM answer WHERE id_question IN (SELECT id FROM question WHERE id_quiz = :id_quiz)");
-            $stmt->bindParam(':id_quiz', $id);
+            $stmt = $this->pdo->prepare("DELETE FROM Answer WHERE question_id IN (SELECT ID FROM Question WHERE quiz_id = :quiz_id)");
+            $stmt->bindParam(':quiz_id', $id);
             $stmt->execute();
 
-            $stmt = $this->pdo->prepare("DELETE FROM question WHERE id_quiz = :id_quiz");
-            $stmt->bindParam(':id_quiz', $id);
+            $stmt = $this->pdo->prepare("DELETE FROM Question WHERE quiz_id = :quiz_id");
+            $stmt->bindParam(':quiz_id', $id);
             $stmt->execute();
 
-            $stmt = $this->pdo->prepare("DELETE FROM quiz WHERE id = :id");
-            $stmt->bindParam(':id', $id);
+            $stmt = $this->pdo->prepare("DELETE FROM Quiz WHERE ID = :ID");
+            $stmt->bindParam(':ID', $id);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
@@ -186,8 +189,9 @@ class QuizController
 
             $quizName = htmlspecialchars($data['quizName']);
             $quizDescription = htmlspecialchars($data['quizDescription']);
-            $quizCategory = htmlspecialchars($data['quizCategory']);
             $nbQuestions = intval($data['nbQuestions']);
+            $quizCategory = htmlspecialchars($data['quizCategory']);
+            $quizDifficulty = htmlspecialchars($data['quizDifficulty']);
 
             if (empty($quizName) || $nbQuestions <= 0) {
                 $response = ['status' => 'error', 'message' => 'Nom du quiz ou nombre de questions invalide.'];
@@ -197,40 +201,42 @@ class QuizController
 
             try {
                 $this->pdo->beginTransaction();
-                $stmt = $this->pdo->prepare("UPDATE quiz SET title = :title, content_desc = :content_desc, nb_question = :nb_question WHERE id = :id");
+                $stmt = $this->pdo->prepare("UPDATE Quiz SET title = :title, content_desc = :content_desc, nb_question = :nb_question, category = :category, difficulty = :difficulty WHERE ID = :ID");
                 $stmt->bindParam(':title', $quizName);
                 $stmt->bindParam(':content_desc', $quizDescription);
                 $stmt->bindParam(':nb_question', $nbQuestions);
-                $stmt->bindParam(':id', $id);
+                $stmt->bindParam(':category', $quizCategory);
+                $stmt->bindParam(':difficulty', $quizDifficulty);
+                $stmt->bindParam(':ID', $id);
                 $stmt->execute();
 
-                $stmt = $this->pdo->prepare("SELECT id, question FROM question WHERE id_quiz = :id_quiz");
-                $stmt->bindParam(':id_quiz', $id);
+                $stmt = $this->pdo->prepare("SELECT ID, question_text FROM Question WHERE quiz_id = :quiz_id");
+                $stmt->bindParam(':quiz_id', $id);
                 $stmt->execute();
                 $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
                 if ($nbQuestions < count($result)) {
                     for ($j = $nbQuestions; $j < count($result); $j++) {
-                        $stmt = $this->pdo->prepare("DELETE FROM answer WHERE id_question = :id_question");
-                        $stmt->bindParam(':id_question', $result[$j]['id']);
+                        $stmt = $this->pdo->prepare("DELETE FROM Answer WHERE question_id = :question_id");
+                        $stmt->bindParam(':question_id', $result[$j]['ID']);
                         $stmt->execute();
-                        $stmt = $this->pdo->prepare("DELETE FROM question WHERE id = :id_question");
-                        $stmt->bindParam(':id_question', $result[$j]['id']);
+                        $stmt = $this->pdo->prepare("DELETE FROM Question WHERE ID = :question_id");
+                        $stmt->bindParam(':question_id', $result[$j]['ID']);
                         $stmt->execute();
                     }
                 }
                 for ($i = 1; $i <= $nbQuestions; $i++) {
                     $questionName = htmlspecialchars($data['question' . $i . 'name']);
                     if (isset($result[$i - 1])) {
-                        $questionId = $result[$i - 1]['id'];
-                        $stmt = $this->pdo->prepare("UPDATE question SET question = :question WHERE id_quiz = :id_quiz AND id = :id_question");
-                        $stmt->bindParam(':question', $questionName);
-                        $stmt->bindParam(':id_quiz', $id);
-                        $stmt->bindParam(':id_question', $questionId);
+                        $questionId = $result[$i - 1]['ID'];
+                        $stmt = $this->pdo->prepare("UPDATE Question SET question_text = :question_text WHERE quiz_id = :quiz_id AND ID = :question_id");
+                        $stmt->bindParam(':question_text', $questionName);
+                        $stmt->bindParam(':quiz_id', $id);
+                        $stmt->bindParam(':question_id', $questionId);
                         $stmt->execute();
 
-                        $stmt = $this->pdo->prepare("SELECT id FROM answer WHERE id_question = :id_question");
-                        $stmt->bindParam(':id_question', $questionId);
+                        $stmt = $this->pdo->prepare("SELECT ID FROM Answer WHERE question_id = :question_id");
+                        $stmt->bindParam(':question_id', $questionId);
                         $stmt->execute();
                         $answerIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
 
@@ -250,20 +256,20 @@ class QuizController
                             }
 
                             if (isset($answerIds[$answerIndex])) {
-                                $stmt = $this->pdo->prepare("UPDATE answer SET answer = :answer, is_correct = :is_correct WHERE id = :id_answer");
-                                $stmt->bindParam(':answer', $answerText);
+                                $stmt = $this->pdo->prepare("UPDATE Answer SET answer_text = :answer_text, is_correct = :is_correct WHERE ID = :answer_id");
+                                $stmt->bindParam(':answer_text', $answerText);
                                 $stmt->bindParam(':is_correct', $isCorrect);
-                                $stmt->bindParam(':id_answer', $answerIds[$answerIndex]);
+                                $stmt->bindParam(':answer_id', $answerIds[$answerIndex]);
                                 $stmt->execute();
                             }
                             $answerIndex++;
                         }
                     } else {
                         $questionId = md5(uniqid());
-                        $stmt = $this->pdo->prepare("INSERT INTO question (id, id_quiz, question) VALUES (:id, :id_quiz, :question)");
-                        $stmt->bindParam(':id', $questionId);
-                        $stmt->bindParam(':id_quiz', $id);
-                        $stmt->bindParam(':question', $questionName);
+                        $stmt = $this->pdo->prepare("INSERT INTO Question (ID, question_text, quiz_id) VALUES (:ID, :question_text, :quiz_id)");
+                        $stmt->bindParam(':ID', $questionId);
+                        $stmt->bindParam(':question_text', $questionName);
+                        $stmt->bindParam(':quiz_id', $id);
                         $stmt->execute();
 
                         foreach (['A', 'B', 'C', 'D'] as $letter) {
@@ -281,11 +287,11 @@ class QuizController
                             }
 
                             $answerId = md5(uniqid());
-                            $stmt = $this->pdo->prepare("INSERT INTO answer (id, id_question, answer, is_correct) VALUES (:id, :id_question, :answer, :is_correct)");
-                            $stmt->bindParam(':id', $answerId);
-                            $stmt->bindParam(':id_question', $questionId);
-                            $stmt->bindParam(':answer', $answerText);
+                            $stmt = $this->pdo->prepare("INSERT INTO Answer (ID, answer_text, is_correct, question_id) VALUES (:ID, :answer_text, :is_correct, question_id)");
+                            $stmt->bindParam(':ID', $answerId);
+                            $stmt->bindParam(':answer_text', $answerText);
                             $stmt->bindParam(':is_correct', $isCorrect);
+                            $stmt->bindParam(':question_id', $questionId);
                             $stmt->execute();
                         }
                     }

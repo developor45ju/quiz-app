@@ -1,10 +1,8 @@
-import { allQuiz } from '../ajax/allQuiz.js';
-// import { deleteQuiz } from "../ajax/deleteQuiz.js";
+import { allQuiz } from '/app/js/ajax/allQuiz.js';
 
 await allQuiz();
 
 const deleteButton = [...document.getElementsByClassName('quiz__delete')];
-console.log(deleteButton);
 
 
 deleteButton.forEach((button) => {
@@ -12,7 +10,7 @@ deleteButton.forEach((button) => {
         const quizId = e.currentTarget.dataset.id;
         
         try {
-            const fetchDeleteQuiz = await fetch( `../../../api/deleteQuiz/${quizId}`, {
+            const fetchDeleteQuiz = await fetch(`http://quizen.fr/api/deleteQuiz/${quizId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json;utf-8'
