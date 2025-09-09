@@ -15,6 +15,7 @@ class Router {
     ];
     private $namedRoutes = [];
     private $middleware = [];
+    private $groupName = [];
 
     public function __construct(string $url) {
         $this->url = $url;
@@ -77,6 +78,22 @@ class Router {
     }
 
     /**
+     * Add a group for routes
+     * 
+     * @param string $urlGroup
+     * @param array $callback
+     * @return $this
+     */
+
+    public function group(string $urlGroup, callable $callback) {
+        $urlGroup = rtrim($urlGroup, '/');
+        $this->groupName[] = $urlGroup;
+        call_user_func($callback, $this);
+        array_pop($this->groupName);
+        return $this;
+    }
+
+    /**
      * Add a path with the method, the url and the callable in the routes adding
      * 
      * @param string $url
@@ -87,7 +104,9 @@ class Router {
      * @return void
      */
     public function addRoute(string $url, $callback,  array $middlewares = [], ?string $name = null, string $method): void {
-        $route = new Route($url, $callback);
+        $prefix = implode('', $this->groupName);
+        $url = '/' . ltrim($url, '/');
+        $route = new Route($prefix . $url, $callback);
         foreach ($middlewares as $middleware) {
             $route->addMiddleware($middleware);
         }
