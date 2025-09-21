@@ -1,43 +1,77 @@
-<h1 class="main__title">Créez un quiz</h1>
-<section class="quiz">
-    <form action="#" method="post" class="quiz__form" id="form-quiz">
-        <div class="quiz__header-form">
-            <label for="quizName" class="quiz__label">Nom du quiz</label>
-            <input type="text" name="quizName" id="quizName" class="quiz__input" />
-            <label for="nbQuestions" class="quiz__label">Nombres de question</label>
-            <input type="number" name="nbQuestions" id="nbQuestions" class="quiz__input" min="1" value="1" />
-            <label for="quizDescription" class="quiz__label">Description du quiz</label>
-            <textarea name="quizDescription" id="quizDescription" class="quiz__input quiz__description" placeholder="Quiz description"></textarea>
-            <label for="quizCategory" class="quiz__label">Catégorie du quiz</label>
-            <select name="quizCategory" id="quizCategory" class="quiz__input">
-                <option value="french">French</option>
-                <option value="math">Math</option>
-                <option value="english">English</option>
-                <option value="english">Web developement</option>
-            </select>
-            <label for="quizDifficulty">Difficulté de la question </label>
-            <select name="quizDifficulty" id="quizDifficulty" class="quiz__input">
-                <option value="easy">1</option>
-                <option value="medium">2</option>
-                <option value="hard">3</option>
-            </select>
-        </div>
-        <div class="questions__container" id="questions">
-            <div class="question__container">
-                <label for="question1">Question 1</label>
-                <input type="text" class="question__name" id="question1" name="question1name" placeholder="Question 1">
-                <div class="proposition__container">
-                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
-                    <input type="text" class="question__answer" name="question1choiceA" placeholder="Proposition 1">
-                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
-                    <input type="text" class="question__answer" name="question1choiceB" placeholder="Proposition 2">
-                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
-                    <input type="text" class="question__answer" name="question1choiceC" placeholder="Proposition 3">
-                    <input type="radio" class="question__choice" name="question1choice" value="wrong">
-                    <input type="text" class="question__answer" name="question1choiceD" placeholder="Proposition 4">
+
+<section class="quiz quiz--modern">
+    <div class="quiz__icon-header">
+        <svg width="60" height="60" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Logo Quizen">
+            <circle cx="90" cy="90" r="85" fill="#007bff" stroke="#5bc62a" stroke-width="8"/>
+            <text x="50%" y="54%" text-anchor="middle" fill="#fff" font-size="38" font-family="Segoe UI, Arial, sans-serif" font-weight="bold" dy=".3em">Q</text>
+        </svg>
+        <h1 class="main__title">Créer un nouveau quiz</h1>
+    </div>
+    <form action="#" method="post" class="quiz__form quiz__form--modern" id="form-quiz" autocomplete="off">
+        <fieldset class="quiz__fieldset">
+            <legend class="quiz__legend">Informations générales</legend>
+            <div class="quiz__fields-row">
+                <div class="quiz__field">
+                    <label for="quizName" class="quiz__label">Nom du quiz <span aria-hidden="true" style="color:#dc3545;">*</span></label>
+                    <input type="text" name="quizName" id="quizName" class="quiz__input" required maxlength="60" placeholder="Ex: Quiz de culture générale" />
+                </div>
+                <div class="quiz__field">
+                    <label for="quizCategory" class="quiz__label">Catégorie</label>
+                    <select name="quizCategory" id="quizCategory" class="quiz__input">
+                        <option value="french">Français</option>
+                        <option value="math">Math</option>
+                        <option value="english">Anglais</option>
+                        <option value="web">Web developpement</option>
+                    </select>
+                </div>
+                <div class="quiz__field">
+                    <label for="quizDifficulty" class="quiz__label">Difficulté</label>
+                    <select name="quizDifficulty" id="quizDifficulty" class="quiz__input">
+                        <option value="easy">Facile</option>
+                        <option value="medium">Moyen</option>
+                        <option value="hard">Difficile</option>
+                    </select>
                 </div>
             </div>
-        </div>
-        <button type="submit" class="quiz__button" id="btn-add-quiz">Creation du quiz</button>
+            <div class="quiz__field">
+                <label for="quizDescription" class="quiz__label">Description</label>
+                <textarea name="quizDescription" id="quizDescription" class="quiz__input quiz__description" placeholder="Décrivez brièvement le quiz (facultatif)" maxlength="200"></textarea>
+            </div>
+            <div class="quiz__field">
+                <label for="nbQuestions" class="quiz__label">Nombre de questions <span aria-hidden="true" style="color:#dc3545;">*</span></label>
+                <input type="number" name="nbQuestions" id="nbQuestions" class="quiz__input" min="1" value="1" required />
+            </div>
+        </fieldset>
+        <fieldset class="quiz__fieldset quiz__fieldset--questions">
+            <legend class="quiz__legend">Questions & réponses</legend>
+            <div class="questions__container" id="questions">
+                <div class="question__container">
+                    <div class="quiz__field">
+                        <label for="question1" class="quiz__label">Question 1</label>
+                        <input type="text" class="question__name quiz__input" id="question1" name="question1name" placeholder="Saisir l'énoncé de la question" required>
+                    </div>
+                    <div class="proposition__container">
+                        <div class="proposition__group">
+                            <input type="radio" class="question__choice" name="question1choice" value="wrong" aria-label="Mauvaise réponse">
+                            <input type="text" class="question__answer quiz__input" name="question1answerAwrong" placeholder="Proposition 1" required>
+                        </div>
+                        <div class="proposition__group">
+                            <input type="radio" class="question__choice" name="question1choice" value="wrong" aria-label="Mauvaise réponse">
+                            <input type="text" class="question__answer quiz__input" name="question1answerBwrong" placeholder="Proposition 2" required>
+                        </div>
+                        <div class="proposition__group">
+                            <input type="radio" class="question__choice" name="question1choice" value="wrong" aria-label="Mauvaise réponse">
+                            <input type="text" class="question__answer quiz__input" name="question1answerCwrong" placeholder="Proposition 3" required>
+                        </div>
+                        <div class="proposition__group">
+                            <input type="radio" class="question__choice" name="question1choice" value="wrong" aria-label="Mauvaise réponse">
+                            <input type="text" class="question__answer quiz__input" name="question1answerDwrong" placeholder="Proposition 4" required>
+                        </div>
+                    </div>
+                    <small class="quiz__help">Sélectionnez la bonne réponse en cochant le bouton radio correspondant.</small>
+                </div>
+            </div>
+        </fieldset>
+        <button type="submit" class="quiz__button quiz__button--modern" id="btn-add-quiz">Créer le quiz</button>
     </form>
 </section>

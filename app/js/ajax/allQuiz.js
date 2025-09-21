@@ -1,6 +1,6 @@
 export async function allQuiz() {
     try {
-        const fetchAllQuiz = await fetch(`http://${window.location.hostname}/api/getAllQuiz`, {
+        const fetchAllQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/getAllQuiz`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'
@@ -29,9 +29,9 @@ export async function allQuiz() {
                     <button class="quiz__delete" data-id="${quiz.ID}">
                         Supprimer le quiz
                     </button>
-                `; 
+                `;
                 gridQuiz.appendChild(quizElement);
-        }
+            }
     }
     } catch (e) {
         console.error(e);

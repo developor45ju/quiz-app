@@ -10,7 +10,7 @@ export default class Quiz {
 
     async getQuiz() {
         try {
-            const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+            const responseQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/getQuiz/${this.id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;utf-8'
@@ -67,7 +67,7 @@ export default class Quiz {
     }
 
     async getNbQuiz() {
-        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+        const responseQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/getQuiz/${this.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'
@@ -78,7 +78,7 @@ export default class Quiz {
     }
 
     async getCatQuiz() {
-        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+        const responseQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/getQuiz/${this.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'
@@ -89,7 +89,7 @@ export default class Quiz {
     }
 
     async getResponseCorrect() {
-        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+        const responseQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/getQuiz/${this.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'
@@ -110,7 +110,7 @@ export default class Quiz {
     }
 
     async getLength() {
-        const responseQuiz = await fetch(`http://${window.location.hostname}/api/getQuiz/${this.id}`, {
+        const responseQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/getQuiz/${this.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json;utf-8'

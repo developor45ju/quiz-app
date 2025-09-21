@@ -15,7 +15,7 @@ export async function addedQuiz(formData) {
         const formDataQ = new FormData(formData);
         formDataQ.forEach((value, key) => data[key] = value);
         
-        const requestAddingQuiz = await fetch(`http://${window.location.hostname}/api/postQuiz`, {
+        const requestAddingQuiz = await fetch(`${window.location.protocol}://${window.location.hostname}/api/postQuiz`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -24,21 +24,11 @@ export async function addedQuiz(formData) {
         });
 
         if (!requestAddingQuiz.ok) {
-            throw new Error(`HTTP error! status: ${requestAddingQuiz.status}`);
+            throw new Error(`${window.location.protocol} error! status: ${requestAddingQuiz.status}`);
         }
         
         const fetchResponse = await requestAddingQuiz.json();
-        if (fetchResponse.status === 'success') {
-            popUp();
-            const requestAllQuiz = await fetch(`http://${window.location.hostname}/api/getAllQuiz`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                }
-            });
-            const responsePage = await requestAllQuiz.text();
-            mainContainer.innerHTML = responsePage;
-        }
+        if (fetchResponse.status === 'success') popUp();
     } catch (e) {
         console.error('Error:', e);
         alert('An error occurred while adding the quiz: ' + e.message);

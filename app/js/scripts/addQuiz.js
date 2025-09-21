@@ -1,6 +1,5 @@
 import { DivContainer } from '/app/js/objects/DivContainer.js';
 import { InputField } from '/app/js/objects/InputField.js';
-import { InputSelect } from '/app/js/objects/InputSelect.js';
 import { Label } from '/app/js/objects/Label.js';
 import { RadioButton } from '/app/js/objects/RadioButton.js';
 import { addedQuiz } from '/app/js/ajax/newQuiz.js';
@@ -18,20 +17,28 @@ nbQuestions.addEventListener('input', function() {
 
     if (isIncrementing) {
         for (let q = previousValue; q < newValue; q++) {
+            const wrapperField = new DivContainer('quiz__field').createDivContainer();
             const questionGroup = new DivContainer('question__container').createDivContainer();
-            const quizQuestionLabel = new Label(`question${q + 1}`, `Question ${q +1}`).createLabel();
-            const questionInputName = new InputField('question__name', `question${q + 1}`, `question${q + 1}name`, 'text', `Question ${q + 1}`).createInputField();
+            const quizQuestionLabel = new Label(`question${q + 1}`, 'quiz__label', `Question ${q +1}`).createLabel();
+            const questionInputName = new InputField('question__name quiz__input', `question${q + 1}`, `question${q + 1}name`, 'Saisir l\'énoncé de la question', true).createInputField();
             const questionProposition = new DivContainer('proposition__container').createDivContainer();
-            questionGroup.appendChild(quizQuestionLabel);
-            questionGroup.appendChild(questionInputName);
+            wrapperField.appendChild(quizQuestionLabel);
+            wrapperField.appendChild(questionInputName);
+            questionGroup.appendChild(wrapperField);
             for (let i = 0; i < 4; i++) {
-                const choiceAnswer = new RadioButton(`question__choice`, `question${q + 1}choice`, 'wrong').createRadioButton();
-                const proposition = new InputField('question__answer', `question${q + 1}choice${lettre[i]}`, `question${q + 1}choice${lettre[i]}`, 'text', `Proposition ${i + 1}`).createInputField();
-                questionProposition.appendChild(choiceAnswer);
-                questionProposition.appendChild(proposition);
+                const propositionGroup = new DivContainer('proposition__group').createDivContainer();
+                const choiceAnswer = new RadioButton(`question__choice`, `question${q + 1}choice`, 'wrong', 'Mauvaise réponse').createRadioButton();
+                const proposition = new InputField('question__answer quiz__input', null, `question${q + 1}answer${lettre[i]}wrong`, `Proposition ${i + 1}`, true).createInputField();
+                propositionGroup.appendChild(choiceAnswer);
+                propositionGroup.appendChild(proposition);
+                questionProposition.appendChild(propositionGroup);
                 questionGroup.appendChild(questionProposition);
             }
             document.getElementById('questions').appendChild(questionGroup);
+            const smallTextHelp = document.createElement('small');
+            smallTextHelp.className = 'quiz__help';
+            smallTextHelp.textContent = 'Séléctionnez la bonne réponse en cochant le bouton radio correspondant.';
+            questionGroup.appendChild(smallTextHelp);
         }
         previousValue = newValue;
         

@@ -10,7 +10,7 @@ deleteButton.forEach((button) => {
         const quizId = e.currentTarget.dataset.id;
         
         try {
-            const fetchDeleteQuiz = await fetch(`http://quizen.fr/api/deleteQuiz/${quizId}`, {
+            const fetchDeleteQuiz = await fetch(`${window.location.protocol}://quizen.fr/api/deleteQuiz/${quizId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json;utf-8'

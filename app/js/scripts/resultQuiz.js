@@ -9,7 +9,6 @@ const quiz = new Quiz(getIdQuiz);
 
 const correctAnswers = await quiz.getResponseCorrect();
 const myResponses = JSON.parse(window.localStorage.getItem('myResponses'));
-console.log(myResponses);
 
 
 const spanResultUser = document.querySelector('span[data-myScore]');

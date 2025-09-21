@@ -1,6 +1,7 @@
 class Router {
     constructor() {
         this.routes = [];
+        this. groupName = [];
         this.notFoundCallback = null;
         this.lastVisitedPath = null;
         this.firstVisited = true;
@@ -16,19 +17,33 @@ class Router {
     }
 
     /**
+     * Add a group function at Router
+     * @param {String} prefix 
+     * @param {Function} callback
+     * @returns {Router}
+     */
+    group(prefix, callback) {
+        this.groupName.push(prefix);
+        callback(this);
+        this.groupName.pop();
+        return this;
+    }
+
+    /**
      * Add a route with support for dynamic params (e.g. /quiz/:id)
      * @param {string} path 
      * @param {Function} callback
      * @return {Router}
      */
     addRoute(path, callback) {
+        const fullPath = this.groupName.join('') + path;
         const paramNames = [];
-        const regexPath = path.replace(/:[^/]+/g, (match) => {
+        const regexPath = fullPath.replace(/:[^/]+/g, (match) => {
             paramNames.push(match.substring(1));
             return '([^/]+)';
         });
         const regex = new RegExp('^' + regexPath + '$');
-        this.routes.push({ path, regex, paramNames, callback });
+        this.routes.push({ path: fullPath, regex, paramNames, callback });
         return this;
     }
 
@@ -41,6 +56,18 @@ class Router {
         this.notFoundCallback = callback;
         return this;
     }
+
+    updateActiveLink(location = window.location.pathname) {
+    const links = document.querySelectorAll('.nav__link');
+    links.forEach(link => {
+        // On compare le href du lien à l'URL courante
+        if (link.getAttribute('href') === location) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
 
     /**
      * Navigate to a specific path
@@ -87,6 +114,7 @@ class Router {
         } else if (this.notFoundCallback) {
             this.notFoundCallback();
         }
+        this.updateActiveLink();
     }
 
     /**

@@ -22,9 +22,7 @@
 
 **Quizen** est une application web simple conçue pour la révision et l'apprentissage à travers la création et la gestion de quiz. Elle permet aux utilisateurs de créer, lire, modifier et supprimer des quiz (opérations CRUD) de manière dynamique, offrant une plateforme interactive pour tester ses connaissances.
 
-## Architecture technique
-
-### Fonctionnalités
+## Fonctionnalités
 
 * **Gestion des quiz (CRUD)**
 
@@ -40,6 +38,8 @@
   * **Navigation côté client** : L'application utilise un routeur JavaScript pour gérer la navigation sans recharger la page, offrant une expérience utilisateur fluide et dynamique.
 
   * **Routing côté serveur** : Un routeur PHP gère les requêtes API et les dirige vers les contrôleurs appropriés pour exécuter les opérations CRUD.
+
+## Architecture technique
 
 ### Front-end
 

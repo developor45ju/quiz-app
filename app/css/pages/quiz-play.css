@@ -1,0 +1,130 @@
+/* Styles pour l'affichage d'un quiz joué (quiz.js)
+   Utilise une palette moderne et cohérente avec le reste de l'app */
+
+.questions-container {
+  display: flex;
+  overflow: hidden;
+  gap: 32px;
+  margin: 0 auto 32px auto;
+  max-width: 700px;
+}
+
+.question-item {
+    position: absolute;
+    height: 35rem;
+    width: 35rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+}
+
+.question-item.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 0 0 100%;
+    background: var(--white, #fff);
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    padding: 22px 18px 18px 18px;
+    border: 1.5px solid var(--light-blue, #e3f0ff);
+}
+
+.question-item h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-blue, #007bff);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.answers-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 500px;
+}
+
+@media (max-width: 600px) {
+  .answers-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.answer-item {
+  display: flex;
+  width: 100%;
+}
+
+.answer__choice-player {
+  background: var(--light-blue, #e3f0ff);
+  color: var(--primary-blue, #007bff);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  width: 100%;
+  text-align: left;
+}
+.answer__choice-player:hover,
+.answer__choice-player.selected {
+  background: var(--primary-blue, #007bff);
+  color: var(--white, #fff);
+}
+
+.wrapper-btn--quiz {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 15rem;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  max-width: 700px;
+  margin: 0 auto 24px auto;
+}
+
+.container__slider-dots {
+    display: flex;
+    gap: 10px;
+    position:fixed;
+    bottom: 10rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.dots-slider {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: #e3f0ff;
+}
+
+.dots-slider.active {
+    background-color: #007bff;
+}
+
+.btn-prev, .btn-next {
+  background: linear-gradient(90deg, var(--primary-blue, #007bff) 60%, var(--primary-green, #5bc62a) 100%);
+  color: var(--white, #fff);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 32px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: background 0.2s, color 0.2s;
+}
+.btn-prev:hover, .btn-next:hover {
+  filter: brightness(1.1);
+}

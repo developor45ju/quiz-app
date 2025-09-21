@@ -1,0 +1,92 @@
+/* Boutons, badges, popups, nav, cards, etc. */
+.group__btn {
+  display: flex;
+  gap: 18px;
+  margin-top: 18px;
+}
+.hero__button, .quiz__button, .quiz__button--modern {
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow);
+}
+.hero__button--created, .quiz__button--modern {
+  background: linear-gradient(90deg, var(--primary-blue) 60%, var(--primary-green) 100%);
+  color: var(--white);
+}
+.hero__button--started {
+  background: linear-gradient(90deg, var(--primary-orange) 60%, var(--primary-purple) 100%);
+  color: var(--white);
+}
+.hero__button:hover, .quiz__button--modern:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 8px;
+  margin-bottom: 6px;
+  color: var(--white);
+}
+.badge--blue { background: var(--primary-blue); }
+.badge--green { background: var(--primary-green); }
+.badge--orange { background: var(--primary-orange); }
+.badge--purple { background: var(--primary-purple); }
+.popup__container {
+  height: 100px;
+  width: 200px;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: var(--primary-green);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav__list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.nav__item {
+  width: 35%;
+  text-align: center;
+  height: 35px;
+  background-color: #f3f3f3;
+}
+.nav__link {
+  display: block;
+  height: 100%;
+  line-height: 35px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 18px;
+}
+.nav__link.active {
+  border-bottom: 3px solid var(--primary-blue);
+  color: var(--primary-blue);
+  background: #e6f0ff;
+}
+
+/* Modern CSS additions */
+input[type="radio"], input[type="checkbox"] {
+  accent-color: var(--primary-blue);
+}
+:focus-visible {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+:is(.quiz__button, .hero__button):hover {
+  filter: brightness(1.08);
+}

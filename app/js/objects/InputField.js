@@ -3,17 +3,17 @@ export class InputField {
      * Constructor for InputField class
      * 
      * @param {string} className - The identifier for CSS styling
-     * @param {string} id - The identifier for the input field
+     * @param {string|null} id - The identifier for the input field
      * @param {string} name - The name of the input field
-     * @param {string} type - The type of the input field
      * @param {string} placeholder - The placeholder text for the input field
+     * @param {boolean} required - If yes or no the field is required
      */
-    constructor(className, id, name, type, placeholder) {
+    constructor(className, id = null, name, placeholder, required = false) {
         this.className = className;
         this.id = id;
         this.name = name;
-        this.type = type;
         this.placeholder = placeholder;
+        this.required = required;
     }
 
     /**
@@ -23,11 +23,14 @@ export class InputField {
      */
     createInputField() {
         const inputField = document.createElement('input');
+        inputField.type = 'text';
         inputField.className = this.className;
-        inputField.id = this.id;
+        if (this.id) {
+            inputField.id = this.id;
+        }
         inputField.name = this.name;
-        inputField.type = this.type;
         inputField.placeholder = this.placeholder;
+        inputField.required = this.required;
 
         return inputField;
     }

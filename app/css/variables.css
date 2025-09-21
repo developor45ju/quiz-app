@@ -1,0 +1,15 @@
+/* Couleurs principales, polices, breakpoints, etc. */
+:root {
+  --primary-blue: #007bff;
+  --primary-green: #5bc62a;
+  --primary-orange: #ff9800;
+  --primary-purple: #7c3aed;
+  --light-bg: #f8fafc;
+  --light-blue: #e0e7ff;
+  --danger: #dc3545;
+  --danger-dark: #b71c1c;
+  --white: #fff;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --radius: 14px;
+  --font-main: 'Segoe UI', Arial, sans-serif;
+}

@@ -1,0 +1,21 @@
+/* Layout général : html, body, main, wrapper, header, footer */
+html, body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-main);
+}
+main {
+  flex: 1;
+}
+.main__title {
+  text-align: center;
+}
+.nav__item:has(.nav__link.active) {
+  background: var(--light-blue);
+  border-radius: 12px;
+}
